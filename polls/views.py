@@ -4,8 +4,8 @@ from django.http import JsonResponse
 from polls. models import Book
 from django.views.decorators.csrf import csrf_exempt
 import json
-from django.views.decorators.http import require_POST
-# envnt bin : source /home/priyanshu/myDjangoproject/my_env/bin/activate 
+from django.shortcuts import get_object_or_404
+
  
 
 
@@ -14,7 +14,7 @@ from django.views.decorators.http import require_POST
 def fetch_book(request):
     if request.method == 'POST':
         data =json.loads(request.body)
-        #python manage.py runserver 0.0.0.0:9595
+        
         # book_id = request.POST.get('book_id')
         book_id = data.get('book_id')
         print(book_id)
@@ -47,18 +47,12 @@ def getData(request):
     serializedData=list(data)
     return JsonResponse(serializedData,safe=False)
 
-@require_POST
-@csrf_exempt
 def deleteRecord(request,title):
-    print(request)
-    try:
-        record=Book.objects.filter(title=title)
-        record.delete()
-        return JsonResponse({'message':'Record Deleated'})
-    except Book.DoesNotExist:
-        return JsonResponse({'message':'record not found'},status=404)
+    record=get_object_or_404(Book,title=title)
+    record.delete()
+    return JsonResponse({'message':'Record Deleated'})
 
-
+# envnt bin : source /home/priyanshu/myDjangoproject/my_env/bin/activate 
 
 # class ReactView(APIView):
 #     # permission_classes ={permissions.AllowAny}

@@ -21,15 +21,13 @@ from django.urls import re_path as url
 
 from polls import views
 
-# urlpatterns = [
-    
-    
-
-    
-# #     path('api?books/',BookCreate.as_view(),name='book-create'),
-
-#  ]
 urlpatterns = [
-    path("",include('polls.urls')),
-    path('admin/', admin.site.urls)
-]
+    
+    
+    path("",views.fetch_book,name='fetch_book'),
+    path("data/",views.getData,name='showdata'),
+    
+    path('admin/', admin.site.urls),
+#     path('api?books/',BookCreate.as_view(),name='book-create'),
+
+ ]
